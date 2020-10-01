@@ -1,6 +1,6 @@
 <?php
 /*
-Plugin Name: Prism Symtax Plugin 
+Plugin Name: Prism Syntax Plugin 
 Plugin URI: http://rezasm.ir
 Description: This plugin uses beautiful prism.js syntax Highlighter
 Author: rezasm
@@ -24,11 +24,28 @@ define("PS_JS", trailingslashit(PS_URI . "assets/js"));
 function load_prism_assets(){
     if (!is_admin()) {
         wp_enqueue_style('r-prismcss', PS_CSS . "prism.css");
+        wp_enqueue_style('r-ppcss', PS_CSS . "pp-style.css");
         wp_enqueue_script('r-prismjs', PS_JS . "prism.js");
     }
 }
  
 add_action('wp_enqueue_scripts','load_prism_assets');
+
+
+function pp_fix_ltr($code){
+
+    $pattern = '/wp-block-code/';
+    $code = preg_replace($pattern,'wp-block-code fix-ltr',$code);
+
+
+    return $code;
+
+
+}
+
+
+add_filter('the_content','pp_fix_ltr',10,1);
+apply_filters('the_content',$code);
  
 
 
